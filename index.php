@@ -4,6 +4,7 @@
 //require 'vendor/autoload.php';
 //if(!isset($_SESSION))session_start();
 //ob_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./js/js.js"></script>
+    
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet" >
@@ -33,10 +35,27 @@
     <!-- 上半部 -->
     <div class="row py-2 px-5">
         <div class="d-flex justify-content-end px-5 gy-1">
-            <a class="text-dark px-2" href="?do=login"><i class="bi bi-person-fill">會員登入</i></a>
+            <!-- <?php
+                echo $_SESSION['token'];
+                echo 123;
+            ?> -->
+        <?php
+                if(isset($_SESSION['user'])){
+                    echo '<a class="text-dark px-2" href="?do=edit_member"><i class="bi bi-person-fill">會員';
+                    echo $_SESSION['user'];
+                    echo '</i></a>';
+                }else{
+                    echo '<a class="text-dark px-2" href="?do=login"><i class="bi bi-person-fill">會員登入</i></a>';
+                }
+                ?>
             <a class="text-dark px-2" href="?do=buycart">
                 <i class="bi bi-cart-check">購物車</i>
             </a>
+            <?php
+                    if(!isset($_SESSION['user'])){
+                        echo '<a class="text-dark px-2" href="?do=admin"><i class="bi bi bi-person-workspace">管理員登入</i></a>';
+                    }
+                ?>
         </div>
     </div>
    
@@ -59,10 +78,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-light" href="?do=news">最新消息</a>
                     </li>
-                    
-                    <!-- <li class="nav-item"><a class="nav-link text-light" href="?do=check_order">查詢訂單</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="?do=logout">登出</a></li> -->
-                   
+                    <?php
+                    if(isset($_SESSION['user'])){
+                        echo '<li class="nav-item"><a class="nav-link text-light" href="?do=check_order">查詢訂單</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link text-light" href="?" onclick="logout()">登出</a></li>';
+                    }
+                    ?>
                 </ul>
             </div>
             <form class="d-flex">
@@ -138,8 +159,11 @@
 
     
 </body>
-
+<script>
+        
+</script>
 </html>
+
 
 <?php
 //ob_end_flush();

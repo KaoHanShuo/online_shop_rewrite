@@ -43,9 +43,9 @@
         //kevin123
 
         
-        // $.post("./api/check_captcha.php",{ans:data.ans},function(check){ //  ./api/check_captcha.php
-        //     if(parseInt(check)){
-        //         //alert("驗證碼正確");
+        $.post("./api/check_captcha.php",{ans:data.ans},function(check){ //  ./api/check_captcha.php
+            if(parseInt(check)){
+                //alert("驗證碼正確");
 
                 
                 $.ajax({
@@ -55,14 +55,34 @@
                     //contentType:"application/json; charset=utf-8",
                     dataType:"json",
                     success: function(res){
-                       console.log(res);
+                        //console.log(res);
+                        $.post("./api/get_session.php",{type:"get_login", token:res.access_token, token_type:res.token_type},function(){
+                            //console.log(test);
+                            $.ajax({
+                                type:'GET',
+                                url:'http://127.0.0.1:8000/api/auth/user-profile',
+                                dataType:'json',
+                                headers: {"Authorization": 'Bearer' + res.access_token},
+                                success:function(resp){
+                                    $.post("./api/get_session_user.php",{user:resp.name},function(){
+                                        //console.log(resp.name);
+                                        location.href='?do=index';
+                                    })
+                                    //console.log(res.name)
+                                },
+                                //error:function(err){console.log(err)},
+                            });
+                            //location.href='?do=index';
+                        })
                     },
                     error: function(res){
                         console.log(res);
                     }
                 })
-        //     }
-        // })
+            }else{
+                alert("驗證碼輸入錯誤");
+            }
+        })
 
         // $.post("./api/check_captcha.php",{ans:data.ans},function(check){ //  ./api/check_captcha.php
         //     if(parseInt(check)){
