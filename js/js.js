@@ -96,7 +96,7 @@ function editMember(){//fron/edit_member
 }
 
 function logout(){
-    $.post("api/get_session.php",{type:"get_token"},function(res){ 
+    $.post("api/get_session.php",{type:"escape_token"},function(res){ 
         //console.log(res)
         $.ajax({
             type:'POST',

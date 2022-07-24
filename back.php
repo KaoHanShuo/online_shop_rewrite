@@ -1,8 +1,12 @@
 <!-- 主頁 -->
-<?php ;
+<?php 
+    if(!isset($_SESSION)){//判斷session是否已啟動
+        session_start();
+    }
+
     if(!isset($_SESSION['admin'])){
-        //to("index.php");
-        //exit();
+        header("Location:index.php");
+        exit();
     }
     //$admin = find('admin',['acc'=>$_SESSION['admin']]);
     //$permit = unserialize($admin['permit']);
@@ -37,7 +41,8 @@
         <div class="row py-2 px-lg-5">
             <div class="col d-flex justify-content-end px-lg-5 gy-1">
                 <a class="text-dark px-2" href="?do=admin">
-                    <i class=" bi bi bi-person-workspace">管理員</i>
+                    <i class=" bi bi bi-person-workspace">管理員<?=$_SESSION['admin'];?>
+                    </i>
                 </a>
             </div>
         </div>

@@ -55,8 +55,8 @@
                     //contentType:"application/json; charset=utf-8",
                     dataType:"json",
                     success: function(res){
-                        //console.log(res);
-                        $.post("./api/get_session.php",{type:"get_login", token:res.access_token, token_type:res.token_type},function(){
+                        console.log(res);
+                        $.post("./api/get_session.php",{type:"get_token", token:res.access_token},function(){
                             //console.log(test);
                             $.ajax({
                                 type:'GET',
@@ -64,7 +64,8 @@
                                 dataType:'json',
                                 headers: {"Authorization": 'Bearer' + res.access_token},
                                 success:function(resp){
-                                    $.post("./api/get_session_user.php",{user:resp.name},function(){
+                                    console.log(resp);
+                                    $.post("./api/get_session.php",{type:"get_user",user:resp.name},function(){
                                         //console.log(resp.name);
                                         location.href='?do=index';
                                     })
@@ -80,7 +81,7 @@
                     }
                 })
             }else{
-                alert("驗證碼輸入錯誤");
+                alert("驗證碼錯誤");
             }
         })
 
